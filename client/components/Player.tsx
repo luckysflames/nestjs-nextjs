@@ -9,50 +9,20 @@ import { useActions } from "../hooks/useActions";
 let audio;
 
 const Player = () => {
-    const { currentTime, duration, pause, volume, active } = useTypedSelector(
+    const { pause, volume, active, duration, currentTime } = useTypedSelector(
         (state) => state.player
     );
     const { pauseTrack, playTrack, setVolume, setCurrentTime, setDuration, setActiveTrack } =
         useActions();
 
-    //
-    //
     useEffect(() => {
         if (!audio) {
             audio = new Audio();
-        }
-        return () => {
-            if (audio) {
-                audio.pause();
-                audio.src = "";
-                audio.onloadedmetadata = null;
-                audio.ontimeupdate = null;
-            }
-        };
-    }, []);
-
-    useEffect(() => {
-        if (active && audio) {
+        } else {
             setAudio();
+            play();
         }
     }, [active]);
-
-    useEffect(() => {
-        if (audio && active) {
-            pause ? audio.pause() : audio.play().catch((e) => console.error("Play failed:", e));
-        }
-    }, [pause, active]);
-    //
-    //
-
-    // useEffect(() => {
-    //     if (!audio) {
-    //         audio = new Audio();
-    //     } else {
-    //         setAudio();
-    //         play();
-    //     }
-    // }, [active]);
 
     const setAudio = () => {
         if (active) {
@@ -81,13 +51,14 @@ const Player = () => {
         audio.volume = Number(e.target.value) / 100;
         setVolume(Number(e.target.value));
     };
-
     const changeCurrentTime = (e: React.ChangeEvent<HTMLInputElement>) => {
         audio.currentTime = Number(e.target.value);
         setCurrentTime(Number(e.target.value));
     };
 
-    if (!active) return null;
+    if (!active) {
+        return null;
+    }
 
     return (
         <div className={styles.player}>
