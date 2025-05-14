@@ -1,19 +1,22 @@
-import React from "react";
-import MainLayout from "../../layouts/MainLayout";
-import { Box, Button, Card, Grid } from "@mui/material";
+import { NextPage } from "next";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { ITrack } from "../../types/track";
-import TrackList from "../../components/TrackList";
-import Player from "../../components/Player";
+import { Box, Button, Card, Grid } from "@mui/material";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
-import { NextThunkDispatch, wrapper } from "../../store";
+import MainLayout from "../../layouts/MainLayout";
+import TrackList from "../../components/TrackList";
 import { fetchTracks } from "../../store/actions-creators/track";
-import { GetServerSideProps } from "next";
+import { NextThunkDispatch, wrapper } from "../../store";
 
-const Index = () => {
+const Index: NextPage = () => {
     const router = useRouter();
-    const { tracks, error } = useTypedSelector((state) => state.tracks);
+    const { tracks, error } = useTypedSelector((state) => state.track);
+    const { fetchTracks } = useActions();
+
+    // useEffect(() => {
+    //     fetchTracks();
+    // }, [fetchTracks]);
 
     if (error) {
         return (
@@ -42,12 +45,10 @@ const Index = () => {
 
 export default Index;
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-    (store) => async () => {
-        const dispatch = store.dispatch as NextThunkDispatch;
-        await dispatch(fetchTracks());
-        return {
-            props: {},
-        };
-    }
-);
+export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+  const dispatch = store.dispatch as NextThunkDispatch;
+  await dispatch(await fetchTracks());
+  return {
+    props: {},
+  };
+});

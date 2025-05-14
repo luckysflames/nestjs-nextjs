@@ -1,11 +1,7 @@
-
-
 // create a makeStore function
-import {Context, createWrapper, MakeStore} from "next-redux-wrapper";
-import {AnyAction, applyMiddleware, createStore, Store} from "redux";
-import {reducer, RootState} from "./reducers";
-import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
-import { configureStore } from "@reduxjs/toolkit";
+import { createWrapper } from "next-redux-wrapper";
+import { reducer, rootReducer } from "./reducers";
+import { AnyAction, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
 
 const makeStore = () =>
     configureStore({
@@ -13,7 +9,9 @@ const makeStore = () =>
         middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     });
 
-// export an assembled wrapper
-export const wrapper = createWrapper<Store<RootState>>(makeStore, {debug: true});
+export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>;
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = AppStore["dispatch"];
 
-export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>
+export const wrapper = createWrapper<AppStore>(makeStore);

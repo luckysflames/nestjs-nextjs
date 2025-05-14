@@ -3,7 +3,7 @@ import { playerReducer } from "./playerReducer";
 import { HYDRATE } from "next-redux-wrapper";
 import { trackReducer } from "./trackReducer";
 
-export const rootReducer = combineReducers({ player: playerReducer, tracks: trackReducer });
+export const rootReducer = combineReducers({ player: playerReducer, track: trackReducer });
 
 export const reducer = (state, action) => {
     if (action.type === HYDRATE) {
