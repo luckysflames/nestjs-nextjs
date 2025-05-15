@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ITrack } from "../types/track";
 import { Card, Grid, IconButton } from "@mui/material";
 import styles from "../styles/TrackItem.module.scss";
@@ -8,16 +8,19 @@ import { useActions } from "../hooks/useActions";
 import { useDispatch } from "react-redux";
 import { deleteTrack } from "../store/actions-creators/track";
 import { NextThunkDispatch } from "../store";
+import TrackProgress from "./TrackProgress";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 interface TrackItemProps {
     track: ITrack;
-    active?: boolean;
 }
 
-const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
+const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
     const router = useRouter();
+    const { pause } = useTypedSelector((state) => state.player);
     const { pauseTrack, playTrack, setActiveTrack } = useActions();
     const dispatch = useDispatch() as NextThunkDispatch;
+    const [active, setActive] = useState(false);
 
     const remove = async () => {
         await dispatch(await deleteTrack(track._id));
@@ -25,9 +28,14 @@ const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
 
     const play = (e) => {
         e.stopPropagation();
+        setActive(true);
         setActiveTrack(track);
         playTrack();
     };
+
+    useEffect(() => {
+        if (pause) setActive(false);
+    }, [pause]);
 
     return (
         <Card
@@ -42,8 +50,6 @@ const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
                 <div>{track.name}</div>
                 <div style={{ fontSize: 12, color: "gray" }}>{track.artist}</div>
             </Grid>
-
-            {active && <div>02:42 / 03:22</div>}
 
             <IconButton onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
                 <Delete onClick={remove} />

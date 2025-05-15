@@ -1,10 +1,11 @@
 import { Pause, PlayArrow, VolumeUp } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "../styles/Player.module.scss";
 import TrackProgress from "./TrackProgress";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useActions } from "../hooks/useActions";
+import VolumeProgress from "./VolumeProgress";
 
 const Player = () => {
     const { currentTime, duration, pause, volume, active } = useTypedSelector(
@@ -50,6 +51,10 @@ const Player = () => {
         }
     }, [pause, active]);
 
+    useEffect(() => {
+        if (currentTime === duration) pauseTrack();
+    }, [currentTime]);
+
     const handlePlay = () => {
         if (pause) {
             playTrack();
@@ -85,7 +90,7 @@ const Player = () => {
             </Grid>
             <TrackProgress left={currentTime} right={duration} onChange={changeCurrentTime} />
             <VolumeUp style={{ marginLeft: "auto" }} />
-            <TrackProgress left={volume} right={100} onChange={changeVolume} />
+            <VolumeProgress left={volume} right={100} onChange={changeVolume} />
         </div>
     );
 };
