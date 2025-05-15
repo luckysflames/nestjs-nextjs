@@ -11,6 +11,7 @@ const TrackProgress: React.FC<TrackProgressProps> = ({ left, right, onChange }) 
         <div style={{ display: "flex" }}>
             <input type="range" min={0} max={right} value={left} onChange={onChange} />
             <div>
+                {/* {Math.floor(left / 60)}:{left % 60} / {Math.floor(right / 60)}:{right % 60} */}
                 {left} / {right}
             </div>
         </div>

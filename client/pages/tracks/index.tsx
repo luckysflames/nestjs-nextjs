@@ -1,22 +1,33 @@
 import { NextPage } from "next";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Box, Button, Card, Grid } from "@mui/material";
+import { Box, Button, Card, Grid, TextField } from "@mui/material";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
 import MainLayout from "../../layouts/MainLayout";
 import TrackList from "../../components/TrackList";
-import { fetchTracks } from "../../store/actions-creators/track";
+import { fetchTracks, searchTracks } from "../../store/actions-creators/track";
 import { NextThunkDispatch, wrapper } from "../../store";
+import axios from "axios";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Index: NextPage = () => {
     const router = useRouter();
     const { tracks, error } = useTypedSelector((state) => state.track);
-    const { fetchTracks } = useActions();
+    const [query, setQuery] = useState<string>("");
+    const dispatch = useDispatch() as NextThunkDispatch;
+    const [timer, setTimer] = useState(null);
 
-    // useEffect(() => {
-    //     fetchTracks();
-    // }, [fetchTracks]);
+    const search = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value);
+        if (timer) {
+            clearTimeout(timer);
+        }
+        setTimer(
+            setTimeout(async () => {
+                await dispatch(await searchTracks(e.target.value));
+            }, 500)
+        );
+    };
 
     if (error) {
         return (
@@ -27,7 +38,7 @@ const Index: NextPage = () => {
     }
 
     return (
-        <MainLayout>
+        <MainLayout centeredH title="Список треков - музыкальная площадка">
             <Grid container justifyContent="center">
                 <Card style={{ width: 900 }}>
                     <Box p={3}>
@@ -36,6 +47,7 @@ const Index: NextPage = () => {
                             <Button onClick={() => router.push("/tracks/create")}>Загрузить</Button>
                         </Grid>
                     </Box>
+                    <TextField fullWidth value={query} onChange={search} />
                     <TrackList tracks={tracks} />
                 </Card>
             </Grid>
@@ -46,9 +58,9 @@ const Index: NextPage = () => {
 export default Index;
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  const dispatch = store.dispatch as NextThunkDispatch;
-  await dispatch(await fetchTracks());
-  return {
-    props: {},
-  };
+    const dispatch = store.dispatch as NextThunkDispatch;
+    await dispatch(await fetchTracks());
+    return {
+        props: {},
+    };
 });
