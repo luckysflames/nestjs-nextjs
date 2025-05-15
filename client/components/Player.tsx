@@ -18,7 +18,9 @@ const Player = () => {
     useEffect(() => {
         if (!active) return;
 
-        audioRef.current = new Audio();
+        if (!audioRef.current) {
+            audioRef.current = new Audio();
+        }
         const audio = audioRef.current;
 
         audio.src = `http://localhost:5000/${active.audio}`;
@@ -26,9 +28,23 @@ const Player = () => {
 
         const handleLoadedMetadata = () => setDuration(Math.ceil(audio.duration));
         const handleTimeUpdate = () => setCurrentTime(Math.ceil(audio.currentTime));
+        const handleEnded = () => pauseTrack();
 
         audio.addEventListener("loadedmetadata", handleLoadedMetadata);
         audio.addEventListener("timeupdate", handleTimeUpdate);
+        audio.addEventListener("ended", handleEnded);
+
+        const playAudio = async () => {
+            try {
+                await audio.play();
+                playTrack();
+            } catch (e) {
+                console.error("Playback failed:", e);
+                pauseTrack();
+            }
+        };
+
+        playAudio();
 
         return () => {
             audio.pause();
@@ -42,18 +58,27 @@ const Player = () => {
     useEffect(() => {
         if (!audioRef.current || !active) return;
 
-        const playPromise = pause ? audioRef.current.pause() : audioRef.current.play();
+        const togglePlayback = async () => {
+            try {
+                if (pause) {
+                    await audioRef.current?.pause();
+                } else {
+                    await audioRef.current?.play();
+                }
+            } catch (e) {
+                console.error("Playback toggle failed:", e);
+            }
+        };
 
-        if (playPromise !== undefined) {
-            (error) => {
-                console.error("Playback failed:", error);
-            };
-        }
-    }, [pause, active]);
+        togglePlayback();
+    }, [pause]);
 
     useEffect(() => {
-        if (currentTime === duration) pauseTrack();
-    }, [currentTime]);
+        return () => {
+            audioRef.current?.pause();
+            audioRef.current = null;
+        };
+    }, []);
 
     const handlePlay = () => {
         if (pause) {

@@ -17,32 +17,34 @@ interface TrackItemProps {
 
 const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
     const router = useRouter();
-    const { pause } = useTypedSelector((state) => state.player);
+    const { pause, active } = useTypedSelector((state) => state.player);
     const { pauseTrack, playTrack, setActiveTrack } = useActions();
     const dispatch = useDispatch() as NextThunkDispatch;
-    const [active, setActive] = useState(false);
 
-    const remove = async () => {
+    const remove = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         await dispatch(await deleteTrack(track._id));
     };
 
-    const play = (e) => {
+    const play = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setActive(true);
-        setActiveTrack(track);
-        playTrack();
-    };
 
-    useEffect(() => {
-        if (pause) setActive(false);
-    }, [pause]);
+        if (active && active._id === track._id) {
+            pause ? playTrack() : pauseTrack();
+        } else {
+            setActiveTrack(track);
+            playTrack();
+        }
+    };
 
     return (
         <Card
             className={`${styles.track} MuiCard-root`}
             onClick={() => router.push("/tracks/" + track._id)}
         >
-            <IconButton onClick={play}>{active ? <Pause /> : <PlayArrow />}</IconButton>
+            <IconButton onClick={play}>
+                {active?._id === track._id && !pause ? <Pause /> : <PlayArrow />}
+            </IconButton>
 
             <img width={70} height={70} src={"http://localhost:5000/" + track.picture} />
 
