@@ -21,7 +21,19 @@ export const searchTracks = (query: string) => async (dispatch: Dispatch<TrackAc
     } catch (e) {
         dispatch({
             type: TrackActionTypes.FETCH_TRACKS_ERROR,
-            payload: "Произошла ошибка при загрузке треков",
+            payload: "Произошла ошибка при поиске треков",
+        });
+    }
+};
+
+export const deleteTrack = (id: string) => async (dispatch: Dispatch<TrackAction>) => {
+    try {
+        await axios.delete("http://localhost:5000/tracks/" + id);
+        dispatch({ type: TrackActionTypes.FETCH_DELETE_TRACK, payload: id });
+    } catch (e) {
+        dispatch({
+            type: TrackActionTypes.FETCH_TRACKS_ERROR,
+            payload: "Произошла ошибка при удалении трека",
         });
     }
 };

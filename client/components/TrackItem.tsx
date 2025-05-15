@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { ITrack } from "../types/track";
 import { Card, Grid, IconButton } from "@mui/material";
 import styles from "../styles/TrackItem.module.scss";
 import { Delete, Pause, PlayArrow } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useActions } from "../hooks/useActions";
+import { useDispatch } from "react-redux";
+import { deleteTrack } from "../store/actions-creators/track";
+import { NextThunkDispatch } from "../store";
 
 interface TrackItemProps {
     track: ITrack;
@@ -14,6 +17,11 @@ interface TrackItemProps {
 const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
     const router = useRouter();
     const { pauseTrack, playTrack, setActiveTrack } = useActions();
+    const dispatch = useDispatch() as NextThunkDispatch;
+
+    const remove = async () => {
+        await dispatch(await deleteTrack(track._id));
+    };
 
     const play = (e) => {
         e.stopPropagation();
@@ -38,7 +46,7 @@ const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
             {active && <div>02:42 / 03:22</div>}
 
             <IconButton onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
-                <Delete />
+                <Delete onClick={remove} />
             </IconButton>
         </Card>
     );
