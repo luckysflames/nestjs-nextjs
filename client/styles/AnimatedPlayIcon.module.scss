@@ -1,0 +1,41 @@
+.equalizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    gap: 3px;
+    cursor: pointer;
+}
+
+.bar {
+    width: 4px;
+    background: #2be96c; // Цвет вашего бренда
+    border-radius: 2px;
+    animation: equalize 1.5s infinite ease-in-out;
+
+    &:nth-child(1) {
+        height: 40%;
+        animation-delay: -0.9s;
+    }
+    &:nth-child(2) {
+        height: 60%;
+        animation-delay: -0.6s;
+    }
+    &:nth-child(3) {
+        height: 80%;
+        animation-delay: -0.3s;
+    }
+    &:nth-child(4) {
+        height: 100%;
+    }
+}
+
+@keyframes equalize {
+    0%,
+    100% {
+        transform: scaleY(0.3);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}

@@ -1,85 +1,92 @@
-import * as React from "react";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import React, { useEffect } from "react";
+import styles from "../styles/Navbar.module.scss";
 import { useRouter } from "next/router";
 
 const menuItems = [
-    { text: "Главная", href: "/" },
-    { text: "Список треков", href: "/tracks" },
-    { text: "Список альбомов", href: "/albums" },
+    {
+        title: "Discover",
+        src: "/icons/discover.svg",
+        href: "/",
+    },
+    {
+        title: "Trends",
+        src: "/icons/trends.svg",
+        href: "/tracks",
+    },
+    {
+        title: "Genres",
+        src: "/icons/genres.svg",
+        href: "/",
+    },
+    {
+        title: "Radio",
+        src: "/icons/radio.svg",
+        href: "/",
+    },
+    {
+        title: "Artist",
+        src: "/icons/artist.svg",
+        href: "/",
+    },
+    {
+        title: "Albums",
+        src: "/icons/album.svg",
+        href: "/",
+    },
 ];
 
-export default function Navbar() {
-    const [open, setOpen] = React.useState(false);
+const Navbar = () => {
     const router = useRouter();
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
     return (
-        <div>
-            <CssBaseline />
-            <AppBar position="fixed">
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Persistent drawer
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="persistent" anchor="left" open={open}>
-                <div>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
+        <div className={styles.container}>
+            <div className={styles.drawer}>
+                <div className={styles.icon}>
+                    <img src="/icons/brand.svg" alt="clover" width={30} height={30} />
+                    <p className={styles.brand}>Music</p>
                 </div>
-                <List>
-                    {menuItems.map(({ text, href }, index) => (
-                        <ListItem
-                            component="button"
-                            key={href}
-                            onClick={() => router.push(href)}
-                            sx={{
-                                backgroundColor: "white",
-                                color: "black",
-                                "&:hover": {
-                                    backgroundColor: "lightgray",
-                                },
-                                border: "none",
-                            }}
+                <hr className={styles.divider} />
+
+                <ul className={styles.list} style={{ marginBottom: "100px" }}>
+                    {menuItems.map((item) => (
+                        <li
+                            key={item.title}
+                            className={styles.listItem}
+                            onClick={() => router.push(item.href)}
                         >
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
+                            <div className={styles.listItemContent}>
+                                <div className={styles.icon}>
+                                    <img src={item.src} alt={item.title} width={24} height={24} />
+                                </div>
+                                <span className={styles.text}>{item.title}</span>
+                            </div>
+                        </li>
                     ))}
-                </List>
-            </Drawer>
+                </ul>
+
+                <h3 className={styles.title}>My Library</h3>
+                <hr className={styles.divider} />
+
+                <ul className={styles.list}>
+                    {["Playlist 1", "Playlist 2", "Playlist 3"].map((text) => (
+                        <li key={text} className={styles.listItem}>
+                            <div className={styles.listItemContent}>
+                                <div className={styles.icon}>
+                                    <img
+                                        src="/icons/playlist.svg"
+                                        alt="playlist-icon"
+                                        width={24}
+                                        height={24}
+                                    />
+                                </div>
+                                <span className={styles.text}>{text}</span>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
-}
+};
+
+export default Navbar;

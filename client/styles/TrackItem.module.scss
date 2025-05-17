@@ -1,6 +1,21 @@
-.track {
-    margin: 20px;
-    padding: 10px;
+.card {
+    display: grid;
+    align-items: center;
+    padding: 5px;
+    grid-template-columns: 0.3fr 0.3fr 3.5fr 1.5fr 0.5fr;
+    background: rgba(30, 30, 30, 0.35);
+    backdrop-filter: blur(10px);
+}
+
+.card img {
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.titles {
+    color: #ffffff;
+    cursor: pointer;
+    justify-self: flex-start;
 }

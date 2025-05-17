@@ -1,0 +1,22 @@
+@import url(https://fonts.googleapis.com/css?family=IBM:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic);
+
+html,
+body,
+#__next {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 16px;
+}
+
+body {
+    background: linear-gradient(-45deg, #280345, #6a0b41, #280345);
+    color: #e0e0e0;
+    margin: 0;
+    // min-height: 100vh;
+}

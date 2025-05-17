@@ -38,7 +38,7 @@ const Index: NextPage = () => {
     }
 
     return (
-        <MainLayout centeredH title="Список треков - музыкальная площадка">
+        <MainLayout title="Список треков - музыкальная площадка">
             <Grid container justifyContent="center">
                 <Card style={{ width: 900 }}>
                     <Box p={3}>

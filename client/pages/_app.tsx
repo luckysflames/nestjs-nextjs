@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { AppProps } from "next/app";
 import { wrapper } from "../store";
-import { Provider } from "react-redux";
+import "../styles/globals.scss";
 
 //It's new method how to do, but it doesn't work
 // function MyApp({ Component, pageProps }: AppProps) {
@@ -15,8 +15,6 @@ import { Provider } from "react-redux";
 
 // export default MyApp;
 
-const WrappedApp: FC<AppProps> = ({Component, pageProps}) => (
-    <Component {...pageProps} />
-);
+const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => <Component {...pageProps} />;
 
 export default wrapper.withRedux(WrappedApp);

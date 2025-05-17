@@ -3,11 +3,12 @@ import Navbar from "../components/Navbar";
 import { Container } from "@mui/material";
 import Player from "../components/Player";
 import Head from "next/head";
+import styles from "./MainLayout.module.scss";
 
 interface MainLayoutProps {
     children: React.ReactNode;
-    centered?: boolean;
-    centeredH?: boolean;
+    // centered?: boolean;
+    // centeredH?: boolean;
     title?: string;
     description?: string;
     keywords?: string;
@@ -15,8 +16,8 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({
     children,
-    centered = false,
-    centeredH = false,
+    // centered = false,
+    // centeredH = false,
     title,
     description,
     keywords,
@@ -37,25 +38,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <Navbar />
-            <Container
-                sx={{
-                    margin: "90px 0",
-                    ...(centered && {
-                        margin: "calc(50vh - 140px) auto",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        textAlign: "center",
-                    }),
-                    ...(centeredH && {
-                        margin: "90px auto",
-                        display: "flex",
-                        flexDirection: "column",
-                    }),
-                }}
-            >
-                {children}
-            </Container>
+            <div className={styles.children}>{children}</div>
             <Player />
         </>
     );
