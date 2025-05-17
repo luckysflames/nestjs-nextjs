@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ITrack } from "../types/track";
-import { Card, Grid, IconButton } from "@mui/material";
 import styles from "../styles/TrackItem.module.scss";
-import { Delete } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useActions } from "../hooks/useActions";
 import { useDispatch } from "react-redux";
