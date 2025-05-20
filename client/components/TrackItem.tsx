@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ITrack } from "../types/track";
 import styles from "../styles/TrackItem.module.scss";
 import { useRouter } from "next/router";
@@ -15,10 +15,32 @@ interface TrackItemProps {
 
 const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
     const router = useRouter();
-    const { pause, active, duration } = useTypedSelector((state) => state.player);
+    const { pause, active } = useTypedSelector((state) => state.player);
     const { pauseTrack, playTrack, setActiveTrack } = useActions();
     const dispatch = useDispatch() as NextThunkDispatch;
     const [currentTrackDuration, setCurrentTrackDuration] = useState<number>(0);
+    const [shouldScroll, setShouldScroll] = useState({
+        name: false,
+        artist: false,
+        duration: false,
+    });
+
+    const titleRef = useRef<HTMLDivElement>(null);
+    const artistRef = useRef<HTMLDivElement>(null);
+    const durationRef = useRef<HTMLDivElement>(null);
+
+    const checkOverflow = (el: HTMLElement | null) => {
+        if (!el) return false;
+        return el.scrollWidth > el.clientWidth;
+    };
+
+    useEffect(() => {
+        setShouldScroll({
+            name: checkOverflow(titleRef.current),
+            artist: checkOverflow(artistRef.current),
+            duration: checkOverflow(durationRef.current),
+        });
+    }, [track.name, track.artist, currentTrackDuration]);
 
     useEffect(() => {
         const audio = new Audio();
@@ -51,6 +73,12 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
         }
     };
 
+    const formatDuration = (seconds: number) => {
+        return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(
+            seconds % 60
+        ).padStart(2, "0")}`;
+    };
+
     return (
         <div className={styles.card}>
             <div onClick={play}>
@@ -58,24 +86,46 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
                     !pause ? (
                         <AnimatedPlayIcon />
                     ) : (
-                        <img style={{ cursor: "pointer" }} src="/icons/play.svg" />
+                        <div className={styles.playIcon}></div>
                     )
                 ) : (
-                    <img style={{ cursor: "pointer" }} src="/icons/play.svg" />
+                    <div className={styles.playIcon}></div>
                 )}
             </div>
 
-            <img width={40} height={40} src={"http://localhost:5000/" + track.picture} />
-            <div className={styles.titles} onClick={() => router.push("/tracks/" + track._id)}>{track.name}</div>
-            <div className={styles.titles}>{track.artist}</div>
-            <div className={styles.titles}>
-                {String(Math.floor(currentTrackDuration / 60)).padStart(2, "0")}:
-                {String(currentTrackDuration % 60).padStart(2, "0")}
+            <img
+                width={40}
+                height={40}
+                src={`http://localhost:5000/${track.picture}`}
+                alt={track.name}
+            />
+
+            <div
+                id={styles.trackName}
+                ref={titleRef}
+                className={`${styles.titles} ${shouldScroll.name ? styles.marquee : ""}`}
+                onClick={() => router.push(`/tracks/${track._id}`)}
+            >
+                <span>{track.name}</span>
             </div>
 
-            {/* <IconButton onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
-                <Delete onClick={remove} />
-            </IconButton> */}
+            <div
+                id={styles.trackArtist}
+                ref={artistRef}
+                className={`${styles.titles} ${shouldScroll.artist ? styles.marquee : ""}`}
+            >
+                <span>{track.artist}</span>
+            </div>
+
+            <div
+                id={styles.timer}
+                ref={durationRef}
+                className={`${shouldScroll.duration ? styles.marquee : ""}`}
+            >
+                <span>{formatDuration(currentTrackDuration)}</span>
+            </div>
+
+            <div onClick={remove} className={styles.deleteIcon}></div>
         </div>
     );
 };

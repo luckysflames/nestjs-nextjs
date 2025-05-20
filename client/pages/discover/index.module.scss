@@ -1,0 +1,12 @@
+.container {
+    width: 77vw;
+    margin: 15px 0;
+    height: 90vh;
+}
+
+.frame {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 30% 50%;
+}

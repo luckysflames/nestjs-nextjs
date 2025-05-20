@@ -1,0 +1,49 @@
+.playlist {
+    min-width: 600px;
+
+    grid-row-start: 3;
+    padding: 20px;
+
+    background: rgba(30, 30, 30, 0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#upload {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 15px;
+
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 16px;
+}
+
+#search {
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+    &::placeholder {
+        padding-left: 10px;
+    }
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 14px;
+}

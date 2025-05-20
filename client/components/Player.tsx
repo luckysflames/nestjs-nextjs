@@ -11,10 +11,11 @@ const Player = () => {
     const { currentTime, duration, pause, volume, active } = useTypedSelector(
         (state) => state.player
     );
-    const { pauseTrack, playTrack, setVolume, setCurrentTime, setDuration } = useActions();
+    const { tracks } = useTypedSelector((state) => state.track);
+    const { pauseTrack, playTrack, setVolume, setCurrentTime, setDuration, setActiveTrack } =
+        useActions();
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    // Инициализация аудио
     useEffect(() => {
         if (!active) return;
 
@@ -28,7 +29,10 @@ const Player = () => {
 
         const handleLoadedMetadata = () => setDuration(Math.ceil(audio.duration));
         const handleTimeUpdate = () => setCurrentTime(Math.ceil(audio.currentTime));
-        const handleEnded = () => pauseTrack();
+        const handleEnded = () => {
+            pauseTrack();
+            playNextTrack();
+        };
 
         audio.addEventListener("loadedmetadata", handleLoadedMetadata);
         audio.addEventListener("timeupdate", handleTimeUpdate);
@@ -54,7 +58,6 @@ const Player = () => {
         };
     }, [active]);
 
-    // Управление воспроизведением
     useEffect(() => {
         if (!audioRef.current || !active) return;
 
@@ -105,6 +108,19 @@ const Player = () => {
     };
 
     if (!active) return null;
+
+    const playNextTrack = () => {
+        if (!active || !tracks?.length) return;
+
+        const currentIndex = tracks.findIndex((track) => track._id === active._id);
+        if (currentIndex === -1) return;
+
+        const nextIndex = (currentIndex + 1) % tracks.length;
+        const nextTrack = tracks[nextIndex];
+
+        setActiveTrack(nextTrack);
+        playTrack();
+    };
 
     return (
         <div className={styles.player}>

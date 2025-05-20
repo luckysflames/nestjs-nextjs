@@ -31,22 +31,20 @@
     }
 }
 
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
 .brand {
     padding: 0 20px;
     margin: 10px 0;
     color: #2be96c;
     text-align: center;
-
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-    font-size: 25px;
-}
-
-.title {
-    padding: 0 20px;
-    margin: 10px 0;
-    color: #ffffff;
 
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 300;
@@ -64,7 +62,17 @@
 .list {
     list-style: none;
     padding: 0;
-    // margin: 0 0 100px 0;
+    margin-bottom: 100px;
+}
+
+.title {
+    margin: 10px 0;
+    color: #ffffff;
+
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 25px;
 }
 
 .listItem {
@@ -75,6 +83,10 @@
     }
 }
 
+.active {
+    border-right: 3px solid green;
+}
+
 .listItemContent {
     display: flex;
     align-items: center;
@@ -82,21 +94,47 @@
     cursor: pointer;
 }
 
-.icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    padding: 5px;
-    font-size: 1.2rem;
-}
-
 .text {
     color: rgba(255, 255, 255, 0.5);
+    margin-left: 15px;
 
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 100;
     font-style: normal;
     font-size: 13px;
     letter-spacing: 1px;
+}
+
+.activeText {
+    color: #ffffff;
+}
+
+.myLibraryTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+#addIcon {
+    cursor: pointer;
+}
+
+.trashIcon {
+    margin-left: 10px;
+}
+
+.editInput {
+    width: 100%;
+    padding: 10px;
+    margin-right: 20px;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 14px;
 }
