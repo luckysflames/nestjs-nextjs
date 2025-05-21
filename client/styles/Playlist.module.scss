@@ -21,7 +21,7 @@
 
 #upload {
     background-color: transparent;
-    border: none;
+    border: 1px solid transparent;
     color: #ffffff;
     cursor: pointer;
     padding: 15px;
@@ -30,6 +30,12 @@
     font-weight: 300;
     font-style: normal;
     font-size: 16px;
+
+    &:hover {
+        border: 1px solid #2be96c;
+        border-radius: 30px;
+        color: #2be96c;
+    }
 }
 
 #search {
@@ -39,11 +45,13 @@
     background-color: transparent;
     border: 1px solid #ffffff;
     border-radius: 20px;
-    &::placeholder {
-        padding-left: 10px;
-    }
+    text-indent: 10px;
+    color: #ffffff;
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 300;
     font-style: normal;
     font-size: 14px;
+    &:focus {
+        outline: none;
+    }
 }

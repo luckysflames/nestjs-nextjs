@@ -28,7 +28,7 @@ const Playlist = ({ tracks }) => {
         <div className={styles.playlist}>
             <div className={styles.header}>
                 <h1>Плейлист</h1>
-                <button id={styles.upload} onClick={() => router.push("/tracks/create")}>
+                <button id={styles.upload} onClick={() => router.push("/discover/create")}>
                     Загрузить
                 </button>
             </div>

@@ -104,7 +104,7 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
                 id={styles.trackName}
                 ref={titleRef}
                 className={`${styles.titles} ${shouldScroll.name ? styles.marquee : ""}`}
-                onClick={() => router.push(`/tracks/${track._id}`)}
+                onClick={() => router.push(`/discover/${track._id}`)}
             >
                 <span>{track.name}</span>
             </div>

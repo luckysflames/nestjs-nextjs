@@ -20,7 +20,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     return (
         <>
             <Head>
-                <title>{title || "Музыкальная платформа"}</title>
+                <title>{title || "Главная - Music"}</title>
                 <meta
                     name="description"
                     content={

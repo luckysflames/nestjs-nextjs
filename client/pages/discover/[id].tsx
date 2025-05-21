@@ -34,7 +34,7 @@ const TrackPage = ({ serverTrack }) => {
         >
             <div className={styles.container}>
                 <div className={styles.frame}>
-                    <button id={styles.back} onClick={() => router.push("/tracks")}>
+                    <button id={styles.back} onClick={() => router.push("/discover")}>
                         Назад
                     </button>
 
