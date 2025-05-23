@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import Player from "../components/Player";
+import Player from "../components/PlayerItems/Player";
 import Head from "next/head";
 import styles from "./MainLayout.module.scss";
 
@@ -11,12 +11,7 @@ interface MainLayoutProps {
     keywords?: string;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({
-    children,
-    title,
-    description,
-    keywords,
-}) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description, keywords }) => {
     return (
         <>
             <Head>
@@ -33,9 +28,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="shortcut icon" href="/icons/brand.svg"></link>
             </Head>
-            <Navbar />
-            <div className={styles.children}>{children}</div>
-            <Player />
+
+            <div className={styles.layoutContainer}>
+                <Navbar />
+                <main className={styles.children}>{children}</main>
+                <Player />
+            </div>
         </>
     );
 };

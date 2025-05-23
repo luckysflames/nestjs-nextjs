@@ -1,4 +1,23 @@
 .children {
-    margin-left: calc(18vw + 20px);
-    height: 100%;
+    // margin-left: $navbar-width;
+    width: calc(100% - 360px);
+    height: calc(100vh - 125px);
+    // padding-top: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.layoutContainer {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+
+    padding-bottom: 115px;
+
+    overflow: hidden;
 }

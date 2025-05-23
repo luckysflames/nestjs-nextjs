@@ -43,7 +43,9 @@ const menuItems = [
 
 const Navbar = () => {
     const router = useRouter();
-    const [playlists, setPlaylists] = useState([]);
+    const [playlists, setPlaylists] = useState([
+        { id: 1, name: "Любимые треки", isEditing: false, tempName: "Любимые треки" },
+    ]);
     const [activeItem, setActiveItem] = useState(router.pathname);
 
     useEffect(() => {
@@ -173,12 +175,21 @@ const Navbar = () => {
                         <li key={playlist.id} className={styles.listItem}>
                             <div className={styles.listItemContent}>
                                 <div className={styles.icon}>
-                                    <img
-                                        src="/icons/playlist.svg"
-                                        alt="playlist-icon"
-                                        width={24}
-                                        height={24}
-                                    />
+                                    {playlist.id !== 1 ? (
+                                        <img
+                                            src="/icons/playlist.svg"
+                                            alt="playlist-icon"
+                                            width={24}
+                                            height={24}
+                                        />
+                                    ) : (
+                                        <img
+                                            src="/icons/heart(transparancy).svg"
+                                            alt="playlist-icon"
+                                            width={24}
+                                            height={24}
+                                        />
+                                    )}
                                 </div>
 
                                 {playlist.isEditing ? (
@@ -195,26 +206,32 @@ const Navbar = () => {
                                     <span className={styles.text}>{playlist.name}</span>
                                 )}
 
-                                <img
-                                    onClick={() =>
-                                        playlist.isEditing
-                                            ? handleNameSubmit(playlist.id)
-                                            : handleEditClick(playlist.id)
-                                    }
-                                    src="/icons/edit.svg"
-                                    alt="edit"
-                                    width={18}
-                                    height={18}
-                                    className={styles.editIcon}
-                                />
-                                <img
-                                    src="/icons/trash(transparency).svg"
-                                    alt="delete playlist"
-                                    width={18}
-                                    height={18}
-                                    className={styles.trashIcon}
-                                    onClick={() => deletePlaylist(playlist.id)}
-                                />
+                                {playlist.id !== 1 ? (
+                                    <div className={styles.playlistButtons}>
+                                        <img
+                                            onClick={() =>
+                                                playlist.isEditing
+                                                    ? handleNameSubmit(playlist.id)
+                                                    : handleEditClick(playlist.id)
+                                            }
+                                            src="/icons/edit.svg"
+                                            alt="edit"
+                                            width={18}
+                                            height={18}
+                                            className={styles.editIcon}
+                                        />
+                                        <img
+                                            src="/icons/trash(transparency).svg"
+                                            alt="delete playlist"
+                                            width={18}
+                                            height={18}
+                                            className={styles.trashIcon}
+                                            onClick={() => deletePlaylist(playlist.id)}
+                                        />
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         </li>
                     ))}

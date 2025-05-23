@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/AnimatedPlayIcon.module.scss";
+import styles from "../../styles/AnimatedPlayIcon.module.scss";
 
 const AnimatedPlayIcon = () => {
     return (

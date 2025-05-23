@@ -4,7 +4,7 @@ import MainLayout from "../../layouts/MainLayout";
 import { fetchTracks } from "../../store/actions-creators/track";
 import { NextThunkDispatch, wrapper } from "../../store";
 import styles from "./index.module.scss";
-import Playlist from "../../components/Playlist";
+import Playlist from "../../components/PlaylistItems/Playlist";
 
 const Index: NextPage = () => {
     const { tracks, error } = useTypedSelector((state) => state.track);
@@ -19,10 +19,8 @@ const Index: NextPage = () => {
 
     return (
         <MainLayout title="Для Вас - Music">
-            <div className={styles.container}>
-                <div className={styles.frame}>
-                    <Playlist tracks={tracks} />
-                </div>
+            <div className={styles.contentWrapper}>
+                <Playlist tracks={tracks} />
             </div>
         </MainLayout>
     );

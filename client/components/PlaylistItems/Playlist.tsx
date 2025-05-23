@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import styles from "../styles/Playlist.module.scss";
+import styles from "../../styles/Playlist.module.scss";
 import { useDispatch } from "react-redux";
-import { NextThunkDispatch } from "../store";
-import { searchTracks } from "../store/actions-creators/track";
+import { NextThunkDispatch } from "../../store";
+import { searchTracks } from "../../store/actions-creators/track";
 import { useRouter } from "next/router";
 import TrackList from "./TrackList";
 

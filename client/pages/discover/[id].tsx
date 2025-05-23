@@ -28,7 +28,7 @@ const TrackPage = ({ serverTrack }) => {
 
     return (
         <MainLayout
-            title={"Музыкальная площадка - " + track.name + " - " + track.artist}
+            title={"Music - " + track.name + " - " + track.artist}
             keywords={"Музыка, артисты, " + track.name + ", " + track.artist}
         >
             <div className={styles.container}>
@@ -39,18 +39,10 @@ const TrackPage = ({ serverTrack }) => {
 
                     <div className={styles.info}>
                         <div className={styles.leftColumn}>
-                            {track.picture !== undefined ? (
-                                <img
-                                    className={styles.albumImage}
-                                    src={"http://localhost:5000/image/02e616b0-42ec-4ef0-998b-d96ca8b9fdd4.jpg"}
-                                    // src={"http://localhost:5000/" + track.picture}
-                                />
-                            ) : (
-                                <img
-                                    className={styles.albumImage}
-                                    src={"/image/defaultAlbumsPage.png"}
-                                />
-                            )}
+                            <img
+                                className={styles.albumImage}
+                                src={"http://localhost:5000/" + track.picture}
+                            />
                         </div>
 
                         <div className={styles.data}>

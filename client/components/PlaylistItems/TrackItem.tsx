@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ITrack } from "../types/track";
-import styles from "../styles/TrackItem.module.scss";
+import { ITrack } from "../../types/track";
+import styles from "../../styles/TrackItem.module.scss";
 import { useRouter } from "next/router";
-import { useActions } from "../hooks/useActions";
+import { useActions } from "../../hooks/useActions";
 import { useDispatch } from "react-redux";
-import { deleteTrack } from "../store/actions-creators/track";
-import { NextThunkDispatch } from "../store";
-import { useTypedSelector } from "../hooks/useTypedSelector";
+import { deleteTrack } from "../../store/actions-creators/track";
+import { NextThunkDispatch } from "../../store";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import AnimatedPlayIcon from "./AnimatedPlayIcon";
 
 interface TrackItemProps {

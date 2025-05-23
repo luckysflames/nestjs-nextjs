@@ -1,11 +1,12 @@
 import { Pause, PlayArrow, VolumeUp } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
 import React, { useEffect, useRef } from "react";
-import styles from "../styles/Player.module.scss";
+import styles from "../../styles/Player.module.scss";
 import TrackProgress from "./TrackProgress";
-import { useTypedSelector } from "../hooks/useTypedSelector";
-import { useActions } from "../hooks/useActions";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 import VolumeProgress from "./VolumeProgress";
+import AnimatedPlayIcon from "../PlaylistItems/AnimatedPlayIcon";
 
 const Player = () => {
     const { currentTime, duration, pause, volume, active } = useTypedSelector(
@@ -15,15 +16,18 @@ const Player = () => {
     const { pauseTrack, playTrack, setVolume, setCurrentTime, setDuration, setActiveTrack } =
         useActions();
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const initialized = useRef(false);
 
     useEffect(() => {
-        if (!active) return;
-
-        if (!audioRef.current) {
-            audioRef.current = new Audio();
+        if (!initialized.current && tracks.length > 0 && !active) {
+            initialized.current = true;
+            setActiveTrack(tracks[0]);
+            return;
         }
-        const audio = audioRef.current;
 
+        if (!active || !audioRef.current) return;
+
+        const audio = audioRef.current;
         audio.src = `http://localhost:5000/${active.audio}`;
         audio.volume = volume / 100;
 
@@ -48,18 +52,20 @@ const Player = () => {
             }
         };
 
-        playAudio();
+        if (!pause) {
+            playAudio();
+        }
 
         return () => {
             audio.pause();
             audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
             audio.removeEventListener("timeupdate", handleTimeUpdate);
-            audioRef.current = null;
+            audio.removeEventListener("ended", handleEnded);
         };
-    }, [active]);
+    }, [active, tracks]);
 
     useEffect(() => {
-        if (!audioRef.current || !active) return;
+        if (!audioRef.current) return;
 
         const togglePlayback = async () => {
             try {
@@ -77,6 +83,8 @@ const Player = () => {
     }, [pause]);
 
     useEffect(() => {
+        audioRef.current = new Audio();
+
         return () => {
             audioRef.current?.pause();
             audioRef.current = null;
@@ -107,8 +115,6 @@ const Player = () => {
         setCurrentTime(newTime);
     };
 
-    if (!active) return null;
-
     const playNextTrack = () => {
         if (!active || !tracks?.length) return;
 
@@ -124,14 +130,39 @@ const Player = () => {
 
     return (
         <div className={styles.player}>
-            <IconButton onClick={handlePlay}>{pause ? <PlayArrow /> : <Pause />}</IconButton>
-            <Grid container direction="column" style={{ width: 200, margin: "0 20px" }}>
-                <div>{active?.name}</div>
-                <div style={{ fontSize: 12, color: "gray" }}>{active?.artist}</div>
-            </Grid>
-            <TrackProgress left={currentTime} right={duration} onChange={changeCurrentTime} />
-            <VolumeUp style={{ marginLeft: "auto" }} />
-            <VolumeProgress left={volume} right={100} onChange={changeVolume} />
+            <div onClick={handlePlay}>
+                {!pause ? <AnimatedPlayIcon /> : <div className={styles.playIcon}></div>}
+            </div>
+
+            <div>
+                <img
+                    src={`http://localhost:5000/${active?.picture || tracks[0].picture}`}
+                    width={45}
+                />
+            </div>
+
+            <div className={styles.titles}>
+                <div>{active?.name || tracks[0].name}</div>
+                <div style={{ fontSize: 12, color: "gray" }}>
+                    {active?.artist || tracks[0].artist}
+                </div>
+            </div>
+
+            <div className={styles.bar}>
+                <TrackProgress left={currentTime} right={duration} onChange={changeCurrentTime} />
+            </div>
+
+            {/* <div className={styles.volume}>
+                <VolumeUp style={{ marginLeft: "auto" }} />
+                <VolumeProgress left={volume} right={100} onChange={changeVolume} />
+            </div> */}
+
+            <div className={styles.timeDisplay}>
+                {String(Math.floor(currentTime / 60)).padStart(2, "0")}:
+                {String(currentTime % 60).padStart(2, "0")} /{" "}
+                {String(Math.floor(duration / 60)).padStart(2, "0")}:
+                {String(duration % 60).padStart(2, "0")}
+            </div>
         </div>
     );
 };

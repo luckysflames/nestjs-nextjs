@@ -1,26 +1,23 @@
 @import url(https://fonts.googleapis.com/css?family=IBM:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic);
 
 .container {
-    width: 20vw;
+    width: clamp(240px, 20vw, 340px);
     height: auto;
     position: relative;
 }
 
 .drawer {
-    height: 90vh;
+    height: calc(100% - 11vw);
     overflow-y: auto;
-    width: 18vw;
-    max-width: 310px;
-    min-width: 240px;
+    // width: calc(100% - 84vw);
+    width: clamp(240px, 18vw, 300px);
     position: fixed;
-    left: 0;
-    top: 0;
+    left: 1.5vw;
+    top: 1.5vw;
     background: rgba(30, 30, 30, 0.35);
     backdrop-filter: blur(10px);
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px 0;
-    margin: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5vw 0;
     border-radius: 20px;
 
     -ms-overflow-style: none;
@@ -35,74 +32,72 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    font-size: 1.2rem;
+    padding: 0.5vw;
+    font-size: clamp(12px, 1.2vw, 16px);
     cursor: pointer;
 }
 
 .brand {
-    padding: 0 20px;
-    margin: 10px 0;
+    padding: 0 1.5vw;
+    margin: 0.8vw 0;
     color: #2be96c;
     text-align: center;
-
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 300;
-    font-style: normal;
-    font-size: 25px;
+    font-size: clamp(20px, 2.5vw, 28px);
 }
 
 .divider {
     border: none;
     height: 1px;
     background-color: rgba(255, 255, 255, 0.2);
-    margin: 10px 25px;
+    margin: 0.8vw 1.8vw;
 }
 
 .list {
     list-style: none;
     padding: 0;
-    margin-bottom: 100px;
+    margin-bottom: 7vw;
 }
 
 .title {
-    margin: 10px 0;
+    margin: 0.8vw 0;
     color: #ffffff;
-
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 300;
-    font-style: normal;
-    font-size: 25px;
+    font-size: clamp(18px, 2.5vw, 24px);
 }
 
 .listItem {
     padding: 0;
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
-        border-right: 3px solid green;
+        border-right: 0.2vw solid green;
     }
 }
 
 .active {
-    border-right: 3px solid green;
+    border-right: 0.2vw solid green;
 }
 
 .listItemContent {
     display: flex;
     align-items: center;
-    padding: 12px 20px;
+    padding: 0.8vw 1.5vw;
     cursor: pointer;
 }
 
 .text {
+    max-width: 8vw;
     color: rgba(255, 255, 255, 0.5);
-    margin-left: 15px;
-
+    margin-left: 0.5vw;
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 100;
-    font-style: normal;
-    font-size: 13px;
-    letter-spacing: 1px;
+    font-size: clamp(10px, 1.3vw, 14px);
+    letter-spacing: 0.1vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .activeText {
@@ -112,33 +107,44 @@
 .myLibraryTitle {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
+    justify-content: space-around;
+    min-width: 14vw;
 }
 
 #addIcon {
     cursor: pointer;
+    width: clamp(18px, 1.5vw, 24px);
+    height: clamp(18px, 1.5vw, 24px);
+}
+
+.trashIcon,
+.editIcon {
+    width: clamp(14px, 1vw, 18px);
+    height: clamp(14px, 1vw, 18px);
 }
 
 .trashIcon {
-    margin-left: 10px;
+    margin-left: 0.8vw;
 }
 
 .editInput {
     width: 100%;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 0.8vw;
+    margin-right: 1.5vw;
     color: #ffffff;
     background-color: transparent;
     border: 1px solid #ffffff;
     border-radius: 20px;
-
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 300;
-    font-style: normal;
-    font-size: 14px;
+    font-size: clamp(12px, 1.4vw, 16px);
 
     &:focus {
         outline: none;
     }
+}
+
+.playlistButtons {
+    display: flex;
+    margin-left: 1.2vw;
 }
