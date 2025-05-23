@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ITrack } from "../../types/track";
 import MainLayout from "../../layouts/MainLayout";
-import { Button, Grid, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import axios from "axios";
 import type { GetServerSideProps } from "next";
@@ -39,16 +38,38 @@ const TrackPage = ({ serverTrack }) => {
                     </button>
 
                     <div className={styles.info}>
-                        <img
-                            src={"http://localhost:5000/" + track.picture}
-                            width={350}
-                            height={350}
-                        />
+                        <div className={styles.leftColumn}>
+                            {track.picture !== undefined ? (
+                                <img
+                                    className={styles.albumImage}
+                                    src={"http://localhost:5000/image/02e616b0-42ec-4ef0-998b-d96ca8b9fdd4.jpg"}
+                                    // src={"http://localhost:5000/" + track.picture}
+                                />
+                            ) : (
+                                <img
+                                    className={styles.albumImage}
+                                    src={"/image/defaultAlbumsPage.png"}
+                                />
+                            )}
+                        </div>
+
                         <div className={styles.data}>
                             <p id={styles.tracktitle}>Трек</p>
                             <p id={styles.trackname}>{track.name}</p>
                             <p id={styles.trackartist}>{track.artist}</p>
                             <p>{track.listens} прослушиваний</p>
+                        </div>
+
+                        <div className={styles.lyrics}>
+                            <h1>Слова</h1>
+                            <div className={styles.text}>
+                                {!track.text
+                                    ? "Что-то пошло не так... Возможно, слова не были добавлены к треку"
+                                    : track.text.replace(/\\n/g, "\n")}
+                            </div>
+                        </div>
+
+                        <div className={styles.threebuttons}>
                             <button id={styles.play} onClick={() => ({})}>
                                 Слушать
                             </button>
@@ -57,28 +78,19 @@ const TrackPage = ({ serverTrack }) => {
                                     <img
                                         src="/icons/heart.svg"
                                         alt="like"
-                                        width={"25px"}
-                                        height={"25px"}
+                                        width={"20px"}
+                                        height={"20px"}
                                     />
                                 </button>
                                 <button id={styles.more} onClick={() => ({})}>
                                     <img
                                         src="/icons/more.svg"
                                         alt="more"
-                                        width={"25px"}
-                                        height={"25px"}
+                                        width={"20px"}
+                                        height={"20px"}
                                     />
                                 </button>
                             </div>
-                        </div>
-
-                        <div className={styles.lyrics}>
-                            <h1>Слова</h1>
-                            <p>
-                                {!track.text
-                                    ? "Что-то пошло не так... Возможно, слова не были добавлены к треку"
-                                    : track.text}
-                            </p>
                         </div>
                     </div>
 
@@ -93,12 +105,12 @@ const TrackPage = ({ serverTrack }) => {
                     </div>
 
                     <div className={styles.createcomment}>
-                        <input
+                        {/* <input
                             className={styles.inputcomment}
                             type="text"
                             {...username}
                             placeholder="Ваше имя"
-                        />
+                        /> */}
                         <input
                             className={styles.inputcomment}
                             type="text"

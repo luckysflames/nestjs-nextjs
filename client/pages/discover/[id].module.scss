@@ -1,8 +1,7 @@
 .container {
-    margin: 20px 40px 0 0;
     padding: 20px;
     border-radius: 20px;
-    height: 90vh;
+    height: 95vh;
 
     flex: 1;
     display: flex;
@@ -25,7 +24,7 @@
 #back {
     display: flex;
     width: 10%;
-    margin: 0 10px 10px 0;
+    margin: 0 10px 0 0;
     padding: 10px;
     justify-content: center;
     color: #ffffff;
@@ -38,9 +37,20 @@
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.threebuttons {
+    display: flex;
+    align-items: center;
+}
+
+.anotherbuttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 #play {
     display: flex;
-    margin: 20px 10px 10px 0;
+    margin: 0 10px 0 0;
     padding: 15px;
     width: 100%;
     color: #ffffff;
@@ -53,16 +63,10 @@
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.anotherbuttons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
 #heart,
 #more {
     display: flex;
-    padding: 20px;
+    padding: 15px;
 
     border: none;
 
@@ -73,9 +77,13 @@
 }
 
 .info {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(200px, 30%) 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    min-width: 870px;
 
-    margin: 20px 40px 0 0;
+    margin: 20px 10px 0 0;
     padding: 20px;
     border-radius: 20px;
     background: rgba(30, 30, 30, 0.35);
@@ -86,14 +94,7 @@
 .data {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
-    margin: 0 40px;
     gap: 10px;
-
-    // font-family: "IBM Plex Sans", sans-serif;
-    // font-weight: 300;
-    // font-style: normal;
-    // font-size: 16px;
 }
 
 #tracktitle {
@@ -120,11 +121,67 @@
     font-size: 16px;
 }
 
+.albumImage {
+    width: 100%;
+    height: auto;
+    max-height: 430px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
 .lyrics {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: 46vh;
+    background: rgba(30, 30, 30, 0.2);
+    border-radius: 12px;
+    padding: 1.5vw;
+    overflow: hidden;
+}
+
+.lyrics h1 {
+    font-size: clamp(18px, 2vw, 24px);
+    margin-bottom: 1vh;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.text {
+    flex: 1;
+    white-space: pre-line;
+    overflow-y: auto;
+    font-size: clamp(14px, 1.6vw, 18px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    padding-right: 0.5vw;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
 }
 
 .comments {
-    margin: 20px 40px 0 0;
+    margin: 20px 10px 0 0;
     padding: 20px;
     border-radius: 20px;
     background: rgba(30, 30, 30, 0.35);
@@ -134,9 +191,10 @@
 
 .createcomment {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
 
-    margin: 20px 40px 0 0;
+    margin: 20px 10px 0 0;
     padding: 20px;
     border-radius: 20px;
     background: rgba(30, 30, 30, 0.35);
@@ -145,8 +203,27 @@
 }
 
 .inputcomment {
+    width: 100%;
+    margin-right: auto;
     padding: 20px;
     background-color: transparent;
     color: #ffffff;
     border: 1px solid #ffffff;
+    border-radius: 20px;
+    &:focus {
+        outline: none;
+    }
+}
+
+.createcomment button {
+    display: flex;
+    padding: 20px;
+    margin-left: 10px;
+
+    border: none;
+    color: #ffffff;
+    border-radius: 10px;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
