@@ -1,150 +1,116 @@
-import { Pause, PlayArrow, VolumeUp } from "@mui/icons-material";
-import { Grid, IconButton } from "@mui/material";
-import React, { FC, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/Player.module.scss";
 import TrackProgress from "./TrackProgress";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
-import VolumeProgress from "./VolumeProgress";
 import AnimatedPlayIcon from "../PlaylistItems/AnimatedPlayIcon";
+import { ITrack } from "../../types/track";
+import { usePlayerContext } from "../PlayerContext";
 
-const Player = () => {
-    // const { currentTime, duration, pause, volume, active } = useTypedSelector(
-    //     (state) => state.player
-    // );
-    // const { tracks } = useTypedSelector((state) => state.track);
-    const { pauseTrack, playTrack, setVolume, setCurrentTime, setDuration, setActiveTrack } =
-        useActions();
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-    const initialized = useRef(false);
+interface PlayerProps {
+    audioRef: React.MutableRefObject<HTMLAudioElement | null>;
+}
 
-    // useEffect(() => {
-    //     if (!initialized.current && tracks.length > 0 && !active) {
-    //         initialized.current = true;
-    //         setActiveTrack(tracks[0]);
-    //         return;
-    //     }
+const Player: React.FC<PlayerProps> = ({ audioRef }) => {
+    const {
+        tracks,
+        activeTrackId,
+        isPlaying,
+        togglePlay,
+        currentTime,
+        setCurrentTime,
+        duration,
+        volume,
+        setVolume,
+        setActiveTrack,
+    } = usePlayerContext();
+    const active = tracks.find((track) => track._id === activeTrackId) || null;
 
-    //     if (!active || !audioRef.current) return;
+    const handlePlay = () => {
+        togglePlay();
+    };
 
-    //     const audio = audioRef.current;
-    //     audio.src = `http://localhost:5000/${active.audio}`;
-    //     audio.volume = volume / 100;
+    const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newVolume = Number(e.target.value);
+        setVolume(newVolume);
+    };
 
-    //     const handleLoadedMetadata = () => setDuration(Math.ceil(audio.duration));
-    //     const handleTimeUpdate = () => setCurrentTime(Math.ceil(audio.currentTime));
-    //     const handleEnded = () => {
-    //         pauseTrack();
-    //         playNextTrack();
-    //     };
+    const changeCurrentTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newTime = Number(e.target.value);
+        if (audioRef.current) {
+            audioRef.current.currentTime = newTime;
+            setCurrentTime(newTime);
+        }
+    };
 
-    //     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    //     audio.addEventListener("timeupdate", handleTimeUpdate);
-    //     audio.addEventListener("ended", handleEnded);
+    const playPreviousTrack = () => {
+        if (!active || !tracks?.length) return;
 
-    //     const playAudio = async () => {
-    //         try {
-    //             await audio.play();
-    //             playTrack();
-    //         } catch (e) {
-    //             console.error("Playback failed:", e);
-    //             pauseTrack();
-    //         }
-    //     };
+        const currentIndex = tracks.findIndex((track) => track._id === active._id);
+        if (currentIndex === -1) return;
 
-    //     if (!pause) {
-    //         playAudio();
-    //     }
+        const previousIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+        const previousTrack = tracks[previousIndex];
 
-    //     return () => {
-    //         audio.pause();
-    //         audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
-    //         audio.removeEventListener("timeupdate", handleTimeUpdate);
-    //         audio.removeEventListener("ended", handleEnded);
-    //     };
-    // }, [active, tracks]);
+        setActiveTrack(previousTrack); // Передаем isPlaying как autoPlay
+    };
 
-    // useEffect(() => {
-    //     if (!audioRef.current) return;
+    const playNextTrack = () => {
+        if (!active || !tracks?.length) return;
 
-    //     const togglePlayback = async () => {
-    //         try {
-    //             if (pause) {
-    //                 await audioRef.current?.pause();
-    //             } else {
-    //                 await audioRef.current?.play();
-    //             }
-    //         } catch (e) {
-    //             console.error("Playback toggle failed:", e);
-    //         }
-    //     };
+        const currentIndex = tracks.findIndex((track) => track._id === active._id);
+        if (currentIndex === -1) return;
 
-    //     togglePlayback();
-    // }, [pause]);
+        const nextIndex = (currentIndex + 1) % tracks.length;
+        const nextTrack = tracks[nextIndex];
 
-    // useEffect(() => {
-    //     audioRef.current = new Audio();
+        setActiveTrack(nextTrack); // Передаем isPlaying как autoPlay
+    };
 
-    //     return () => {
-    //         audioRef.current?.pause();
-    //         audioRef.current = null;
-    //     };
-    // }, []);
+    // Обработка окончания трека
+    useEffect(() => {
+        if (!audioRef.current) return;
 
-    // const handlePlay = () => {
-    //     if (pause) {
-    //         playTrack();
-    //     } else {
-    //         pauseTrack();
-    //     }
-    // };
+        const handleEnded = () => {
+            setCurrentTime(0);
+            playNextTrack();
+        };
 
-    // const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const newVolume = Number(e.target.value);
-    //     if (audioRef.current) {
-    //         audioRef.current.volume = newVolume / 100;
-    //     }
-    //     setVolume(newVolume);
-    // };
+        audioRef.current.addEventListener("ended", handleEnded);
 
-    // const changeCurrentTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const newTime = Number(e.target.value);
-    //     if (audioRef.current) {
-    //         audioRef.current.currentTime = newTime;
-    //     }
-    //     setCurrentTime(newTime);
-    // };
+        return () => {
+            audioRef.current?.removeEventListener("ended", handleEnded);
+        };
+    }, [audioRef.current, active, tracks]);
 
-    // const playNextTrack = () => {
-    //     if (!active || !tracks?.length) return;
-
-    //     const currentIndex = tracks.findIndex((track) => track._id === active._id);
-    //     if (currentIndex === -1) return;
-
-    //     const nextIndex = (currentIndex + 1) % tracks.length;
-    //     const nextTrack = tracks[nextIndex];
-
-    //     setActiveTrack(nextTrack);
-    //     playTrack();
-    // };
+    if (!tracks.length) {
+        return <div>Нет доступных треков</div>;
+    }
 
     return (
         <div className={styles.player}>
-            {/* <div onClick={handlePlay}>
-                {!pause ? <AnimatedPlayIcon /> : <div className={styles.playIcon}></div>}
+            <div className={styles.buttons}>
+                <div onClick={playPreviousTrack} className={styles.skipPrevious}></div>
+                <div onClick={handlePlay}>
+                    {isPlaying && active ? (
+                        <AnimatedPlayIcon />
+                    ) : (
+                        <div className={styles.playIcon}></div>
+                    )}
+                </div>
+                <div onClick={playNextTrack} className={styles.skipNext}></div>
             </div>
 
             <div>
                 <img
-                    src={`http://localhost:5000/${active?.picture || tracks[0].picture}`}
+                    src={`http://localhost:5000/${active?.picture || "defaultAlbumsPage.svg"}`}
                     width={45}
+                    alt={active?.name || "Нет обложки трека"}
                 />
             </div>
 
             <div className={styles.titles}>
-                <div>{active?.name || tracks[0].name}</div>
+                <div>{active?.name || "Выберите трек"}</div>
                 <div style={{ fontSize: 12, color: "gray" }}>
-                    {active?.artist || tracks[0].artist}
+                    {active?.artist || "Ну пожалуйста"}
                 </div>
             </div>
 
@@ -152,17 +118,12 @@ const Player = () => {
                 <TrackProgress left={currentTime} right={duration} onChange={changeCurrentTime} />
             </div>
 
-            <div className={styles.volume}>
-                <VolumeUp style={{ marginLeft: "auto" }} />
-                <VolumeProgress left={volume} right={100} onChange={changeVolume} />
-            </div>
-
             <div className={styles.timeDisplay}>
                 {String(Math.floor(currentTime / 60)).padStart(2, "0")}:
                 {String(currentTime % 60).padStart(2, "0")} /{" "}
                 {String(Math.floor(duration / 60)).padStart(2, "0")}:
                 {String(duration % 60).padStart(2, "0")}
-            </div> */}
+            </div>
         </div>
     );
 };

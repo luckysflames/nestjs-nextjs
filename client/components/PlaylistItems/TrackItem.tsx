@@ -2,22 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { ITrack } from "../../types/track";
 import styles from "../../styles/TrackItem.module.scss";
 import { useRouter } from "next/router";
-import { useActions } from "../../hooks/useActions";
-import { useDispatch } from "react-redux";
-import { deleteTrack } from "../../store/actions-creators/track";
-import { NextThunkDispatch } from "../../store";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
+import axios from "axios";
+import { usePlayerContext } from "../PlayerContext";
 import AnimatedPlayIcon from "./AnimatedPlayIcon";
 
 interface TrackItemProps {
     track: ITrack;
+    refreshTracks?: () => void;
 }
 
-const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
+const TrackItem: React.FC<TrackItemProps> = ({ track, refreshTracks }) => {
     const router = useRouter();
-    const { pause, active } = useTypedSelector((state) => state.player);
-    const { pauseTrack, playTrack, setActiveTrack } = useActions();
-    const dispatch = useDispatch() as NextThunkDispatch;
+    const { setActiveTrack, activeTrackId, isPlaying, togglePlay } = usePlayerContext();
     const [currentTrackDuration, setCurrentTrackDuration] = useState<number>(0);
     const [shouldScroll, setShouldScroll] = useState({
         name: false,
@@ -59,17 +55,23 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
 
     const remove = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        await dispatch(await deleteTrack(track._id));
+        try {
+            await axios.delete(`http://localhost:5000/tracks/${track._id}`);
+            refreshTracks?.();
+        } catch (e) {
+            console.error("Ошибка удаления трека:", e);
+        }
     };
 
     const play = (e: React.MouseEvent) => {
         e.stopPropagation();
-
-        if (active && active._id === track._id) {
-            pause ? playTrack() : pauseTrack();
+        if (activeTrackId === track._id) {
+            togglePlay();
         } else {
             setActiveTrack(track);
-            playTrack();
+            if (!isPlaying) {
+                togglePlay();
+            }
         }
     };
 
@@ -82,11 +84,11 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
     return (
         <div className={styles.card}>
             <div onClick={play}>
-                {active?._id === track._id ? (
-                    !pause ? (
-                        <AnimatedPlayIcon />
-                    ) : (
+                {activeTrackId === track._id ? (
+                    !isPlaying ? (
                         <div className={styles.playIcon}></div>
+                    ) : (
+                        <AnimatedPlayIcon />
                     )
                 ) : (
                     <div className={styles.playIcon}></div>

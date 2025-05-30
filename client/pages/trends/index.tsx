@@ -2,11 +2,7 @@ import { NextPage } from "next";
 import MainLayout from "../../layouts/MainLayout";
 
 const Index: NextPage = () => {
-    return (
-        <MainLayout title="Тренды - Music">
-            <h1>Trends page</h1>
-        </MainLayout>
-    );
+    return <h1>Trends page</h1>;
 };
 
 export default Index;

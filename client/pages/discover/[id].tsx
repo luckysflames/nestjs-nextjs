@@ -1,36 +1,131 @@
-import React, { useState } from "react";
-import { ITrack } from "../../types/track";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
+import { ITrack } from "../../types/track";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import axios from "axios";
-import type { GetServerSideProps } from "next";
-import { useInput } from "../../hooks/useInput";
+import { usePlayerContext } from "../../components/PlayerContext";
 import styles from "./[id].module.scss";
 
-const TrackPage = ({ serverTrack }) => {
-    const [track, setTrack] = useState<ITrack>(serverTrack);
-    const router = useRouter();
-    const username = useInput("");
-    const text = useInput("");
+interface Comment {
+    _id: string;
+    username: string;
+    text: string;
+}
 
+const TrackPage: React.FC = () => {
+    const router = useRouter();
+    const { id } = router.query; // Получаем ID из URL
+    const { setActiveTrack, activeTrackId, tracks } = usePlayerContext();
+    const [track, setTrack] = useState<ITrack | null>(null);
+    const [commentText, setCommentText] = useState<string>("");
+    const [username, setUsername] = useState<string>("User"); // Временное значение
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>("");
+
+    // Загрузка трека
+    useEffect(() => {
+        if (!id) return;
+
+        const fetchTrack = async () => {
+            setLoading(true);
+            setError("");
+
+            // Проверяем, есть ли трек в tracks
+            const cachedTrack = tracks.find((t) => t._id === id);
+            if (cachedTrack) {
+                setTrack(cachedTrack);
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:5000/tracks/${id}`);
+                setTrack(response.data);
+            } catch (e) {
+                console.error("Ошибка загрузки трека:", e);
+                setError("Не удалось загрузить трек");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTrack();
+    }, [id, tracks]);
+
+    // Синхронизация активного трека
+    // useEffect(() => {
+    //     if (track && activeTrackId !== track._id) {
+    //         setActiveTrack(track);
+    //     }
+    // }, [track, activeTrackId, setActiveTrack]);
+
+    // Обновление просмотров
+    useEffect(() => {
+        if (!track) return;
+
+        const updateListens = async () => {
+            try {
+                await axios.post(`http://localhost:5000/tracks/listen/${track._id}`);
+                setTrack((prev) => (prev ? { ...prev, listens: prev.listens + 1 } : prev));
+            } catch (e) {
+                console.error("Ошибка обновления просмотров:", e);
+            }
+        };
+        updateListens();
+    }, [track?._id]);
+
+    // Добавление комментария
     const addComment = async () => {
+        if (!commentText.trim() || !track) return;
         try {
-            const response = await axios.post("http://localhost:5000/tracks/comments", {
-                username: username.value,
-                text: text.value,
+            const response = await axios.post(`http://localhost:5000/tracks/comments`, {
+                username,
+                text: commentText,
                 trackId: track._id,
             });
-            setTrack({ ...track, comments: [...track.comments, response.data] });
+            setTrack((prev) =>
+                prev
+                    ? {
+                          ...prev,
+                          comments: [...(prev.comments || []), response.data],
+                      }
+                    : prev
+            );
+            setCommentText("");
         } catch (e) {
-            console.log(e);
+            console.error("Ошибка добавления комментария:", e);
+            setError("Не удалось добавить комментарий");
         }
     };
 
+    if (loading) {
+        return (
+            <MainLayout title="Загрузка... | Music">
+                <Typography variant="h5">Загрузка...</Typography>
+            </MainLayout>
+        );
+    }
+
+    if (error || !track) {
+        return (
+            <MainLayout title="Ошибка | Music">
+                <Typography variant="h5" color="error">
+                    {error || "Трек не найден"}
+                </Typography>
+                <Button
+                    variant="outlined"
+                    onClick={() => router.push("/discover")}
+                    style={{ marginTop: 20 }}
+                >
+                    Назад
+                </Button>
+            </MainLayout>
+        );
+    }
+
     return (
-        <MainLayout
-            title={"Music - " + track.name + " - " + track.artist}
-            keywords={"Музыка, артисты, " + track.name + ", " + track.artist}
-        >
+        <>
             <div className={styles.container}>
                 <div className={styles.frame}>
                     <button id={styles.back} onClick={() => router.push("/discover")}>
@@ -106,24 +201,14 @@ const TrackPage = ({ serverTrack }) => {
                         <input
                             className={styles.inputcomment}
                             type="text"
-                            {...text}
                             placeholder="Комментарий"
                         />
                         <button onClick={addComment}>Отправить</button>
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </>
     );
 };
 
 export default TrackPage;
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const response = await axios.get("http://localhost:5000/tracks/" + params.id);
-    return {
-        props: {
-            serverTrack: response.data,
-        },
-    };
-};
