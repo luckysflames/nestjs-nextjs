@@ -1,11 +1,21 @@
 .contentWrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
+    // display: flex;
+    // flex-wrap: wrap;
+    // gap: 20px;
+
+    display: grid;
+    row-gap: 5vh;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 35% 65%;
+    // grid-template-rows: 32.5vh 50vh;
+
+    justify-content: space-between;
+    margin: 20px;
+    // margin-top: 20px;
     padding: 10px;
-    width: 100%;
+    // width: 97%;
+    width: calc(100% - 1vw);
+    height: calc(100% - 6vh);
 
     scrollbar-width: none;
     
@@ -14,8 +24,9 @@
     }
 }
 
-.item {
-    padding: 20px;
-    height: 50vh;
-    // flex: 1;
+.cards {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1vw;
+    grid-column: 1 / span 2;
 }

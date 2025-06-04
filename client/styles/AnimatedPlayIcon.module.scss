@@ -1,15 +1,19 @@
 .equalizer {
     display: flex;
     align-items: center;
-    justify-content: center;
     height: 25px;
     gap: 3px;
     cursor: pointer;
+    &:hover {
+        .bar {
+            background: #ffffff;
+        }
+    }
 }
 
 .bar {
     width: 4px;
-    background: #2be96c; // Цвет вашего бренда
+    background: #2be96c;
     border-radius: 2px;
     animation: equalize 1.5s infinite ease-in-out;
 

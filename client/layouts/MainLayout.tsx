@@ -52,12 +52,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description, k
     }, []);
 
     // Установка первого трека
-    useEffect(() => {
-        if (!initialized.current && tracks.length > 0 && !activeTrackId) {
-            initialized.current = true;
-            setActiveTrackId(tracks[0]._id);
-        }
-    }, [tracks, activeTrackId]);
+    // useEffect(() => {
+    //     if (!initialized.current && tracks.length > 0 && !activeTrackId) {
+    //         initialized.current = true;
+    //         setActiveTrackId(tracks[0]._id);
+    //     }
+    // }, [tracks, activeTrackId]);
 
     // Функция для установки активного трека
     const setActiveTrack = (track: ITrack, autoPlay: boolean = false) => {

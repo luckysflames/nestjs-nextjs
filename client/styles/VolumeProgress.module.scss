@@ -1,0 +1,44 @@
+.rangeWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.range {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.range::-webkit-slider-runnable-track {
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.6rem;
+    width: 0.6rem;
+    background-color: #ffffff;
+    border-radius: 5px;
+
+    box-shadow: -5.3rem -4rem 0 5rem #ffffff;
+}
+
+.rangeWrap:hover {
+    .range::-webkit-slider-thumb {
+        visibility: visible;
+        background-color: #2be96c;
+        box-shadow: -5.3rem -4rem 0 5rem #2be96c;
+    }
+}
+
+.containerImg {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

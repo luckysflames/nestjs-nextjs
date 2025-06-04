@@ -3,7 +3,8 @@
     align-items: center;
     padding: 5px;
     gap: 10px;
-    grid-template-columns: 0.3fr 0.3fr 3.5fr 1.5fr 0.5fr 0.3fr;
+    // grid-template-columns: 0.3fr 0.3fr 3.5fr 1.5fr 0.5fr 0.3fr;
+    grid-template-columns: repeat(6, auto);
 }
 
 .card img {
@@ -28,29 +29,51 @@
     }
 }
 
+.text-container {
+    align-items: center;
+}
+
+
 #trackName {
-    max-width: 17.5vw;
+    width: 10vw;
 }
 
 #trackArtist {
-    max-width: 7.5vw;
+    width: 5vw;
 }
 
-.titles.marquee span {
-    display: inline-block;
-    animation: scrollText 15s linear infinite;
-    will-change: transform;
+.marquee {
+    --gap: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .text-container {
+        display: inline-block;
+        white-space: nowrap;
+        animation: scroll var(--duration, 10s) linear infinite;
+        padding-right: var(--gap);
+        will-change: transform;
+    }
+
+    .text-original,
+    .text-copy {
+        display: inline-block;
+    }
+
+    .text-copy {
+        position: absolute;
+        left: 100%;
+        padding-left: var(--gap);
+    }
 }
 
-@keyframes scrollText {
+@keyframes scroll {
     0% {
         transform: translateX(0);
     }
-    50% {
-        transform: translateX(-50%);
-    }
     100% {
-        transform: translateX(0);
+        transform: translateX(calc(-100% - var(--gap)));
     }
 }
 
@@ -60,6 +83,7 @@
 
 .playIcon {
     display: flex;
+    width: 25px;
     height: 25px;
     background: url("/icons/play.svg") no-repeat center center;
     cursor: pointer;
@@ -71,6 +95,7 @@
 
 .deleteIcon {
     display: flex;
+    width: 25px;
     height: 25px;
     background: url("/icons/trash(white).svg") no-repeat center center;
     cursor: pointer;

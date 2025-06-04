@@ -1,4 +1,106 @@
-@import url(https://fonts.googleapis.com/css?family=IBM:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic);
+/* Light (300) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-Light.otf") format("opentype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Book/Regular (400) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Book Italic (400) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-BookItalic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Medium (500) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-Medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Medium Italic (500) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-MediumItalic.otf") format("opentype");
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Bold (700) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Black (900) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-Black.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+/* Black Italic (900) */
+@font-face {
+    font-family: "CircularSpotifyText";
+    src: url("/fonts/CircularSpotifyText-BlackItalic.otf") format("opentype");
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
 
 html,
 body,
@@ -8,8 +110,8 @@ body,
     padding: 0;
     overflow: hidden;
 
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
+    font-family: "CircularSpotifyText", sans-serif;
+    font-weight: 400;
     font-style: normal;
 }
 
@@ -17,14 +119,8 @@ body {
     background: linear-gradient(-45deg, #280345, #6a0b41, #280345);
     color: #e0e0e0;
     margin: 0;
-    // min-height: 100vh;
 }
 
 p {
     margin: 0;
 }
-
-// div {
-//     display: initial;
-//     unicode-bidi: initial;
-// }

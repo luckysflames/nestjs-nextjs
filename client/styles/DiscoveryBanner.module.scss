@@ -1,0 +1,96 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8vh 2vw 3vh 2vw;
+    margin: 20px;
+
+    border-radius: 20px;
+    background: url("/images/discoverMusic.jpg") center / cover no-repeat;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    .title {
+        max-width: 75%;
+        font-size: 32px;
+    }
+
+    .text {
+        max-width: 85%;
+        line-height: 1.5;
+        padding-bottom: 30px;
+        font-size: 14px;
+    }
+}
+
+.buttons {
+    display: flex;
+    column-gap: 20px;
+}
+
+.getStarted {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 130px;
+    padding: 5px 5px 5px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+    color: #ffffff;
+    background-color: #2be96c;
+
+    &:hover {
+        .arrow {
+            animation: jump 1s ease-in-out;
+        }
+    }
+}
+
+.arrow {
+    width: 15px;
+    height: 15px;
+    padding: 7px;
+    border-radius: 30px;
+    background-color: #ffffff;
+}
+
+@keyframes jump {
+    18% {
+        transform: translateX(-7.5px);
+    }
+    36% {
+        transform: translateX(0px);
+    }
+    54% {
+        transform: translateX(-5px);
+    }
+    72% {
+        transform: translateX(0px);
+    }
+    90% {
+        transform: translateX(-2.5px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+.learnMore {
+    display: flex;
+    justify-content: center;
+    min-width: 130px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+    background-color: #ffffff;
+    color: black;
+    line-height: 1;
+}

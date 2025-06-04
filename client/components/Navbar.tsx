@@ -31,7 +31,7 @@ const menuItems = [
         title: "Исполнители",
         defaultSrc: "/icons/artist.svg",
         activeSrc: "/icons/artist(white).svg",
-        href: "/artists",
+        href: "/performers",
     },
     {
         title: "Альбомы",

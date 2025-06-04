@@ -109,7 +109,7 @@ const TrackPage: React.FC = () => {
 
     if (error || !track) {
         return (
-            <MainLayout title="Ошибка | Music">
+            <>
                 <Typography variant="h5" color="error">
                     {error || "Трек не найден"}
                 </Typography>
@@ -120,7 +120,7 @@ const TrackPage: React.FC = () => {
                 >
                     Назад
                 </Button>
-            </MainLayout>
+            </>
         );
     }
 

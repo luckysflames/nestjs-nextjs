@@ -1,20 +1,11 @@
 .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    max-height: 20vh;
-    // min-height: 0;
-}
-
-.list {
-    flex: 1;
+    flex-grow: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
+    // Кастомный скроллбар
     &::-webkit-scrollbar {
-        display: none;
+        width: 0;
     }
 }
 

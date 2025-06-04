@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=IBM:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic);
+//@import url(https://fonts.googleapis.com/css?family=IBM:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic);
 
 .container {
     width: clamp(240px, 20vw, 340px);
@@ -9,7 +9,6 @@
 .drawer {
     height: calc(100% - 11vw);
     overflow-y: auto;
-    // width: calc(100% - 84vw);
     width: clamp(240px, 18vw, 300px);
     position: fixed;
     left: 1.5vw;
@@ -42,8 +41,8 @@
     margin: 0.8vw 0;
     color: #2be96c;
     text-align: center;
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
+
+    font-weight: 500;
     font-size: clamp(20px, 2.5vw, 28px);
 }
 
@@ -63,8 +62,8 @@
 .title {
     margin: 0.8vw 0;
     color: #ffffff;
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
+
+    font-weight: 700;
     font-size: clamp(18px, 2.5vw, 24px);
 }
 
@@ -91,8 +90,8 @@
     max-width: 8vw;
     color: rgba(255, 255, 255, 0.5);
     margin-left: 0.5vw;
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 100;
+
+    font-weight: 400;
     font-size: clamp(10px, 1.3vw, 14px);
     letter-spacing: 0.1vw;
     white-space: nowrap;
@@ -135,8 +134,8 @@
     background-color: transparent;
     border: 1px solid #ffffff;
     border-radius: 20px;
-    font-family: "IBM Plex Sans", sans-serif;
-    font-weight: 300;
+
+    font-weight: 400;
     font-size: clamp(12px, 1.4vw, 16px);
 
     &:focus {

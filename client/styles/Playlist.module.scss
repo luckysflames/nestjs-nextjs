@@ -1,22 +1,30 @@
 .playlist {
-    min-width: 600px;
-    height: calc(100% - 30vh);
-
+    display: flex;
+    flex-direction: column;
+    // width: clamp(450px, 35vw, 600px);
+    // width: 50%;
+    // height: 60%;
+    overflow: hidden;
+    margin: 20px;
     padding: 20px;
+    box-sizing: border-box;
 
     background: rgba(30, 30, 30, 0.35);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-
-    display: flex;
-    flex-direction: column;
-    // height: 50%;
 }
 
 .header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+
+    h1 {
+        margin: 0;
+        font-size: 24px;
+    }
 }
 
 #upload {
@@ -54,4 +62,8 @@
     &:focus {
         outline: none;
     }
+
+    outline: none;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
