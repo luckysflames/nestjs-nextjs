@@ -22,7 +22,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description, k
     const [duration, setDuration] = useState<number>(0);
     const [volume, setVolume] = useState<number>(50);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const initialized = useRef(false);
 
     // Инициализация audioRef на клиенте
     useEffect(() => {
@@ -50,14 +49,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description, k
         };
         fetchTracks();
     }, []);
-
-    // Установка первого трека
-    // useEffect(() => {
-    //     if (!initialized.current && tracks.length > 0 && !activeTrackId) {
-    //         initialized.current = true;
-    //         setActiveTrackId(tracks[0]._id);
-    //     }
-    // }, [tracks, activeTrackId]);
 
     // Функция для установки активного трека
     const setActiveTrack = (track: ITrack, autoPlay: boolean = false) => {
